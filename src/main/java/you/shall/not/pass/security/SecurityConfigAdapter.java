@@ -18,34 +18,37 @@ import you.shall.not.pass.service.CustomUserDetailService;
 @EnableWebSecurity
 public class SecurityConfigAdapter extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+  public SecurityConfigAdapter(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(new CustomUserDetailService(userRepository))
-                .passwordEncoder(passwordEncoder());
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().csrf()
-                .disable()
-                .httpBasic()
-                .and()
-                .anonymous()
-                .disable()
-                .authorizeRequests()
-                .antMatchers("/access")
-                .permitAll();
-    }
+  @Autowired
+  public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder)
+      throws Exception {
+    authenticationManagerBuilder
+        .userDetailsService(new CustomUserDetailService(userRepository))
+        .passwordEncoder(passwordEncoder());
+  }
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and().csrf().disable()
+        .httpBasic()
+        .and()
+        .anonymous().principal("anonymous").authorities("0")
+        .and()
+        .authorizeRequests()
+        .antMatchers("/access")
+        .permitAll();
+  }
 
 }

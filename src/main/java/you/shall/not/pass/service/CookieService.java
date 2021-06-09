@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class CookieService {
@@ -32,7 +31,7 @@ public class CookieService {
         headerValues.add("Path=/");
         headerValues.add("HttpOnly");
         headerValues.add("Max-Age=" + expireInSeconds);
-        return headerValues.stream().collect(Collectors.joining("; "));
+        return String.join("; ", headerValues);
     }
 
     public void addCookie(String cookie, HttpServletResponse response) {
