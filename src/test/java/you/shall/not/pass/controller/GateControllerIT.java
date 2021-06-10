@@ -41,7 +41,7 @@ class GateControllerIT {
   @DisplayName("Simple Integration test of resources endpoint to check if all resources are listed or not")
   void testGetResources() {
 
-    HttpEntity<String> entity = new HttpEntity<>(null, headers);
+    var entity = new HttpEntity<String>(null, headers);
     ResponseEntity<String> response = restTemplate.exchange(
         createURLWithPort("/resources"), HttpMethod.GET, entity, String.class);
 
@@ -116,7 +116,7 @@ class GateControllerIT {
   void testAccessOfL1ResourceInAnonymousMode() {
     HttpEntity<String> entity = new HttpEntity<>(null, headers);
 
-    ResponseEntity<String> response = restTemplate.exchange(
+    var response = restTemplate.exchange(
         createURLWithPort("/access"), HttpMethod.GET, entity, String.class);
     String set_cookie = response.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
     assert set_cookie != null;
