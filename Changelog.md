@@ -1,5 +1,10 @@
 # Changelog : Gate-Keeper Senior Test : Arani
 
+#### Steps to run
+1. `mvn package` (or `mvn install` if you wish to run also the integration tests)
+2. `mvn spring-boot:run`
+3. Access http://localhost:8080/home in your browser
+
 ### Anonymous user access
 1. Changes in SecurityConfigAdapter to allow Anonymous user login
 ```java
@@ -36,9 +41,11 @@ if (SecurityContextHolder.getContext()
 1. The classes that I have touched, I have replaced field injection to constructor injection as that is the preferred way of doing DI
 2. Small refactorings
 
-> Unit Tests
-1. Some unit tests have been added
-
+> Unit & Integration Tests
+1. Some unit tests have been added (``mvn package``) command will execute them
+2. Some **Integration Tests** have also been added (``mvn verify``)
+`Integration tests run in isolated mode (to ensure test integrity), hence takes a while, so to just build the project use mvn package and not install
+`
 ### Frontend Assignment
 Have developed most of the requirement, and the completed functionality are as follows:
 1. /home loads the frontend page > DONE
@@ -53,5 +60,6 @@ That is regarding CSRF protection and sending it as XSRF header.
 > Is it a common practise to set CSRF without httpOnly flag? But doesn't that defeat the whole purpose of XSS?
 > I could tweak the code to make the CSRF token as not httpOnly, that way I could complete the FE assignment. 
 > But, I think it's really not the point and better to have a discussion on what the established best practices are.
+> The scenarios are mostly covered in the Integration tests where I can pass the XSRF header after reading the CSRF cookie value
    
 
