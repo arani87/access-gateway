@@ -50,13 +50,13 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String user) throws UsernameNotFoundException {
         String[] userArray = user.split("#");
-        if (userArray != null && userArray.length == 2) {
+        if (userArray.length == 2) {
             String lvl = userArray[0];
             String userName = userArray[1];
 
             Example<User> example = Example.of(User.builder().userName(userName).build());
-            Optional<User> OptionalUser = repository.findOne(example);
-            User gateKeeperUser = OptionalUser.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            Optional<User> optionalUser = repository.findOne(example);
+            User gateKeeperUser = optionalUser.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
             UserGrantDetail userGrantDetail = getDetails(lvl, gateKeeperUser);
 

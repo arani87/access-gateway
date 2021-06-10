@@ -34,20 +34,21 @@ public class SecurityFilter implements Filter {
 
     private static final Logger LOG = LoggerFactory.getLogger(SecurityFilter.class);
 
-    @Autowired
-    private Gson gson;
+    private final Gson gson;
+    private final CookieService cookieService;
+    private final SessionService sessionService;
+    private final List<StaticResourceValidator> resourcesValidators;
+    private final CsrfProtectionService csrfProtectionService;
 
-    @Autowired
-    private CookieService cookieService;
-
-    @Autowired
-    private SessionService sessionService;
-
-    @Autowired
-    private List<StaticResourceValidator> resourcesValidators;
-
-    @Autowired
-    private CsrfProtectionService csrfProtectionService;
+    public SecurityFilter(Gson gson, CookieService cookieService,
+                          List<StaticResourceValidator> resourcesValidators,
+                          CsrfProtectionService csrfProtectionService, SessionService sessionService) {
+        this.gson = gson;
+        this.cookieService = cookieService;
+        this.resourcesValidators = resourcesValidators;
+        this.csrfProtectionService = csrfProtectionService;
+        this.sessionService = sessionService;
+    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

@@ -92,7 +92,7 @@ public class CsrfProtectionService {
     }
 
     private long getEpochSecondsDiff(String cookieValue) {
-        final String values[] = cookieValue.split("_");
+        final String[] values = cookieValue.split("_");
         final String epochReceived = values[1];
         final Instant ofEpochSecond = Instant.ofEpochSecond(Long.parseLong(epochReceived));
         final OffsetDateTime ofInstant = OffsetDateTime.ofInstant(ofEpochSecond, ZoneId.systemDefault());

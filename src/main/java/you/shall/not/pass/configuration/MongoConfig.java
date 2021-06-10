@@ -38,8 +38,7 @@ public class MongoConfig {
 
     @Bean
     public MongoTemplate mongoTemplate(MongoDbFactory mongoDbFactory) {
-        MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory);
-        return mongoTemplate;
+        return new MongoTemplate(mongoDbFactory);
     }
 
     @Bean

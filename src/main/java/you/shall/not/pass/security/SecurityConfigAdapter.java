@@ -18,8 +18,11 @@ import you.shall.not.pass.service.CustomUserDetailService;
 @EnableWebSecurity
 public class SecurityConfigAdapter extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public SecurityConfigAdapter(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -41,8 +44,8 @@ public class SecurityConfigAdapter extends WebSecurityConfigurerAdapter {
                 .disable()
                 .httpBasic()
                 .and()
-                .anonymous()
-                .disable()
+                .anonymous().principal("anonymous").authorities("0")
+                .and()
                 .authorizeRequests()
                 .antMatchers("/access")
                 .permitAll();
